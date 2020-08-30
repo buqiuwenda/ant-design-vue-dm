@@ -1,5 +1,5 @@
 <template>
-  <div>Header</div>
+  <div>StepForm</div>
 </template>
 <script>
 export default {};

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import NotFound from "../views/404.vue";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 Vue.use(VueRouter);
 
@@ -49,7 +51,7 @@ const routes = [
             meta: { title: "分析页" },
             component: () =>
               import(
-                /* webpackChunkName: "dashboard" */ "./views/Dashboard/Analysis.vue"
+                /* webpackChunkName: "dashboard" */ "../views/Dashboard/Analysis.vue"
               )
           }
         ]
@@ -68,7 +70,7 @@ const routes = [
         name: "basicform",
         meta: { title: "基础表单" },
         component: () =>
-          import(/* webpackChunkName: "form" */ "./views/Forms/BasicForm")
+          import(/* webpackChunkName: "form" */ "../views/Forms/BasicForm.vue")
       },
       {
         path: "/form/step-form",
@@ -76,7 +78,7 @@ const routes = [
         hideChildrenInMenu: true,
         meta: { title: "分布表单" },
         component: () =>
-          import(/* webpackChunkName: "form" */ "./views/Forms/StepForm"),
+          import(/* webpackChunkName: "form" */ "../views/Forms/StepForm"),
         children: [
           {
             path: "/form/step-form",
@@ -87,7 +89,7 @@ const routes = [
             name: "info",
             component: () =>
               import(
-                /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step1"
+                /* webpackChunkName: "form" */ "../views/Forms/StepForm/Step1.vue"
               )
           },
           {
@@ -95,7 +97,7 @@ const routes = [
             name: "confirm",
             component: () =>
               import(
-                /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step2"
+                /* webpackChunkName: "form" */ "../views/Forms/StepForm/Step2.vue"
               )
           },
           {
@@ -103,7 +105,7 @@ const routes = [
             name: "result",
             component: () =>
               import(
-                /* webpackChunkName: "form" */ "./views/Forms/StepForm/Step3"
+                /* webpackChunkName: "form" */ "../views/Forms/StepForm/Step3.vue"
               )
           }
         ]
@@ -111,18 +113,9 @@ const routes = [
     ]
   },
   {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: "*",
+    name: "404",
+    component: NotFound
   }
 ];
 
@@ -130,6 +123,15 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  NProgress.start();
+  next();
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 export default router;

@@ -1,7 +1,21 @@
 <template>
-  <div></div>
+  <div>
+    <Header />
+    <Sider />
+    <router-view></router-view>
+    <Footer />
+  </div>
 </template>
 <script>
-export default {};
+import Header from "./Header.vue";
+import Footer from "./Footer.vue";
+import Sider from "./SiderMenu.vue";
+export default {
+  components: {
+    Header,
+    Footer,
+    Sider
+  }
+};
 </script>
 <style></style>
