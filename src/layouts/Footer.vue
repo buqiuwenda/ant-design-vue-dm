@@ -1,5 +1,5 @@
 <template>
-  <div>Footer</div>
+  <div>Ant WD ©2020 Created by Ant WD USE</div>
 </template>
 <script>
 export default {};
