@@ -6,7 +6,12 @@
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
-        <a-icon type="menu-fold"></a-icon>
+        <a-icon
+          class="trigger"
+          :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+          @click="collapsed != collapsed"
+        >
+        </a-icon>
         <Header></Header>
       </a-layout-header>
       <a-layout-content style="margin: 0 16px">
@@ -35,4 +40,14 @@ export default {
   }
 };
 </script>
-<style></style>
+<style scoped lang="less">
+.trigger {
+  padding: 0 20px;
+  line-height: 64px;
+  font-size: 20px;
+
+  &:hover {
+    background: #eeeeee;
+  }
+}
+</style>
