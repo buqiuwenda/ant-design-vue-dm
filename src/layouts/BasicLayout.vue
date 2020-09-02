@@ -1,9 +1,19 @@
 <template>
-  <div>
-    <a-layout id="components-layout-demo-side" style="min-height: 100vh">
-      <a-layout-sider :trigger="null" v-model="collapsed" collapsible>
-        <div class="logo" />
-        <Sider></Sider>
+  <div :class="[`nav-theme-${navTheme}`, `nav-layout-${navLayout}`]">
+    <a-layout style="min-height: 100vh">
+      <a-layout-sider
+        v-if="navLayout == 'left'"
+        :theme="navTheme"
+        :trigger="null"
+        v-model="collapsed"
+        collapsible
+        width="256px"
+      >
+        <div class="logo">
+          <logo></logo>
+          <h1>Ant Design Vue WD</h1>
+        </div>
+        <Sider :theme="navTheme" :collapsed="collapsed"></Sider>
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
@@ -31,17 +41,27 @@ import Header from "./Header.vue";
 import Footer from "./Footer.vue";
 import Sider from "./SiderMenu.vue";
 import SettingDrawer from "../components/SettingDrawer";
+import Logo from "@/assets/logo.svg";
 export default {
   data() {
     return {
       collapsed: false
     };
   },
+  computed: {
+    navTheme() {
+      return this.$route.query.navTheme || "dark";
+    },
+    navLayout() {
+      return this.$route.query.navLayout || "left";
+    }
+  },
   components: {
     Header,
     Footer,
     Sider,
-    SettingDrawer
+    SettingDrawer,
+    Logo
   }
 };
 </script>
@@ -53,6 +73,39 @@ export default {
 
   &:hover {
     background: #eeeeee;
+  }
+
+  .logo {
+    position: relative;
+    height: 64px;
+    padding-left: 24px;
+    overflow: hidden;
+    line-height: 64px;
+    background: #002140;
+
+    svg {
+      width: 32px;
+      height: 32px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    h1 {
+      display: inline-block;
+      margin: 0 0 0 12px;
+      font-size: 20px;
+      font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+  }
+
+  .nav-theme-dark {
+    /deep/ .logo {
+      h1 {
+        color: #ffffff;
+      }
+    }
   }
 }
 </style>
