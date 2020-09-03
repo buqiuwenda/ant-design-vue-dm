@@ -9,6 +9,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/user",
+    hideInMenu: true,
     component: () =>
       import(/* webpackChunkName: "layouts" */ "../layouts/UserLayout.vue"),
     children: [
