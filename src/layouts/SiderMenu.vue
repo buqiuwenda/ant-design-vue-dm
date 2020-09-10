@@ -4,8 +4,7 @@
       :default-selected-keys="['1']"
       :default-open-keys="['2']"
       mode="inline"
-      theme="dark"
-      :inline-collapsed="collapsed"
+      theme="theme"
     >
       <template v-for="item in menuData">
         <a-menu-item v-if="!item.children" :key="item.path">
@@ -22,11 +21,21 @@
 import SubMenu from "./SubMenu";
 
 export default {
+  props: {
+    theme: {
+      type: String,
+      default: "dark"
+    },
+    collapsed: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     "sub-menu": SubMenu
   },
   data() {
-    const menuData = this.getMenuData(this.$routes.options.routes);
+    const menuData = this.getMenuData(this.$router.options.routes);
     return {
       menuData
     };
@@ -35,17 +44,15 @@ export default {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    getMenuData(routes = []) {
+    getMenuData(routes) {
       const menuData = [];
 
-      for (let item of routes) {
-        if (item.name && !item.hideItem) {
+      routes.forEach(item => {
+        if (item.name && !item.hideInItem) {
           const newItem = { ...item };
           delete newItem.children;
-          if (item.children && !item.hideChildrenInMenu) {
+          if (item.collapsed && !item.hideChildrenInMenu) {
             newItem.children = this.getMenuData(item.children);
-          } else {
-            this.getMenuData(item.children);
           }
           menuData.push(newItem);
         } else if (
@@ -55,7 +62,8 @@ export default {
         ) {
           menuData.push(...this.getMenuData(item.children));
         }
-      }
+      });
+
       return menuData;
     }
   }
