@@ -1,10 +1,12 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import NotFound from "../views/404.vue";
+import Router from "vue-router";
+import findLast from "lodash/findLast";
+import { notification } from "ant-design-vue";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { check, isLogin } from "../utils/auth";
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
 const routes = [
   {
@@ -32,7 +34,8 @@ const routes = [
     ]
   },
   {
-    path: "/dashboard",
+    path: "/",
+    meta: { authority: ["user", "admin"] },
     component: () =>
       import(/* webpackChunkName: "dashboard" */ "../layouts/BasicLayout.vue"),
     children: [
@@ -64,7 +67,7 @@ const routes = [
     path: "/form",
     name: "form",
     component: { render: h => h("router-view") },
-    meta: { icon: "form", title: "表单" },
+    meta: { icon: "form", title: "表单", authority: ["admin"] },
     children: [
       {
         path: "/form/basic-form",
@@ -114,14 +117,22 @@ const routes = [
     ]
   },
   {
+    path: "/403",
+    name: "403",
+    hideInMenu: true,
+    component: () =>
+      import(/* webpackChunkName: "exception" */ "@/views/Exception/403.vue")
+  },
+  {
     path: "*",
     name: "404",
     hideInMenu: true,
-    component: NotFound
+    component: () =>
+      import(/* webpackChunkName: "exception" */ "@/views/Exception/404.vue")
   }
 ];
 
-const router = new VueRouter({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes
@@ -129,6 +140,23 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
+  const record = findLast(to.matched, record => record.meta.authority);
+  if (record && !check(record.meta.authority)) {
+    if (!isLogin() && to.path !== "/user/login") {
+      next({
+        path: "/user/login"
+      });
+    } else if (to.path !== "/403") {
+      notification.error({
+        message: "403",
+        description: "你没有权限访问，请联系管理员咨询。"
+      });
+      next({
+        path: "/403"
+      });
+    }
+    NProgress.done();
+  }
   next();
 });
 
