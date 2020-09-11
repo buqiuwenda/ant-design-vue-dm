@@ -4,7 +4,7 @@
       :default-selected-keys="['1']"
       :default-open-keys="['2']"
       mode="inline"
-      theme="theme"
+      :theme="theme"
     >
       <template v-for="item in menuData">
         <a-menu-item v-if="!item.children" :key="item.path">
@@ -48,22 +48,21 @@ export default {
       const menuData = [];
 
       routes.forEach(item => {
-        if (item.name && !item.hideInItem) {
+        if (item.name && !item.hideInMenu) {
           const newItem = { ...item };
           delete newItem.children;
-          if (item.collapsed && !item.hideChildrenInMenu) {
+          if (item.children && !item.hideChildrenInMenu) {
             newItem.children = this.getMenuData(item.children);
           }
           menuData.push(newItem);
         } else if (
-          !item.hideItem &&
+          !item.hideInMenu &&
           !item.hideChildrenInMenu &&
           item.children
         ) {
           menuData.push(...this.getMenuData(item.children));
         }
       });
-
       return menuData;
     }
   }

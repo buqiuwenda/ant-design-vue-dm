@@ -2,7 +2,7 @@
   <div :class="[`nav-theme-${navTheme}`, `nav-layout-${navLayout}`]">
     <a-layout style="min-height: 100vh">
       <a-layout-sider
-        v-if="navLayout == 'left'"
+        v-if="navLayout === 'left'"
         :theme="navTheme"
         :trigger="null"
         v-model="collapsed"
@@ -13,7 +13,7 @@
           <logo></logo>
           <h1>Ant Design Vue WD</h1>
         </div>
-        <Sider :theme="navTheme" :collapsed="collapsed"></Sider>
+        <SiderMenu :theme="navTheme" :collapsed="collapsed" />
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
@@ -39,7 +39,7 @@
 <script>
 import Header from "./Header.vue";
 import Footer from "./Footer.vue";
-import Sider from "./SiderMenu.vue";
+import SiderMenu from "./SiderMenu.vue";
 import SettingDrawer from "../components/SettingDrawer";
 import Logo from "@/assets/logo.svg";
 export default {
@@ -59,7 +59,7 @@ export default {
   components: {
     Header,
     Footer,
-    Sider,
+    SiderMenu,
     SettingDrawer,
     Logo
   }
