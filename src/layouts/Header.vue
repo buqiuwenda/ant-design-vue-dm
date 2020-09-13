@@ -1,7 +1,12 @@
 <template>
-  <div>Header</div>
+  <div class="header">Header</div>
 </template>
 <script>
 export default {};
 </script>
-<style></style>
+<style>
+.header {
+  float: right;
+  margin-right: 30px;
+}
+</style>

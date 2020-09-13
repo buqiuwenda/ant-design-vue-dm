@@ -38,7 +38,7 @@
 </template>
 <script>
 import Header from "./Header.vue";
-import Footer from "./Footer.vue";
+import Footer from "../components/GlobalFooter";
 import SiderMenu from "./SiderMenu.vue";
 import SettingDrawer from "../components/SettingDrawer";
 import Logo from "@/assets/logo.svg";
