@@ -2,7 +2,7 @@
   <a-sub-menu :key="props.menuInfo.path">
     <span slot="title">
       <a-icon
-        v-if:="props.menuInfo.meta.icon"
+        v-if="props.menuInfo.meta.icon"
         :type="props.menuInfo.meta.icon"
       /><span>{{ props.menuInfo.meta.title }}</span>
     </span>
